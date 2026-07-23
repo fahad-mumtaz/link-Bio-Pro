@@ -1,153 +1,105 @@
-import React, { useState } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
-import { ChevronLeft, ChevronRight, Star } from 'lucide-react';
+
+const testimonials = [
+  {
+    name: 'Sofia Chen',
+    handle: '@sofia.creates',
+    role: 'Lifestyle Creator · 480K YouTube',
+    avatar: 'photo-1494790108377-be9c29b29330',
+    text: 'Switched from Linktree to BioPro and immediately saw a 4× jump in email signups. The lead gating feature alone made it worth it — I grew my list by 3,400 subscribers in 2 weeks.',
+    stat: '3,400 leads in 2 weeks',
+  },
+  {
+    name: 'Marcus Webb',
+    handle: '@marcuswebb',
+    role: 'Digital Course Creator',
+    avatar: 'photo-1507003211169-0a1dd7228f2d',
+    text: "BioPro's analytics tell me exactly which link converts best so I can optimize. The custom domain was icing on the cake — my page now looks 100% branded and pro.",
+    stat: '2.3× link CTR uplift',
+  },
+  {
+    name: 'Priya Nair',
+    handle: '@priyacooks',
+    role: 'Food Blogger & Chef Coach',
+    avatar: 'photo-1534528741775-53994a69daeb',
+    text: "I have all my free recipe PDFs behind a lead gate on BioPro. My email list hit 10,000 in 6 months without any ad spend. Setup took literally 15 minutes.",
+    stat: '10K subs in 6 months',
+  },
+  {
+    name: 'Derek Austin',
+    handle: '@derekdesigns',
+    role: 'Freelance Brand Designer',
+    avatar: 'photo-1500648767791-00dcc994a43e',
+    text: 'The quality of my client inquiries improved significantly after I set up my BioPro page. It feels premium and positions me as an expert before the first conversation.',
+    stat: '+67% quality lead rate',
+  },
+];
 
 const Testimonials = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const [currentIndex, setCurrentIndex] = useState(0);
-
-  const testimonials = [
-    {
-      quote: "BioPro helped me grow my email list by 347% in just 2 months. The email capture feature alone paid for itself 10x over.",
-      author: "Sarah Johnson",
-      title: "Fashion Influencer",
-      credential: "73K Instagram followers",
-      rating: 5,
-    },
-    {
-      quote: "I've tried every link-in-bio tool. BioPro is the only one that actually converts followers into paying customers. The analytics are incredible.",
-      author: "Mike Chen",
-      title: "Fitness Coach",
-      credential: "$50K/mo online coaching",
-      rating: 5,
-    },
-    {
-      quote: "Finally, a link tool designed for serious creators. The A/B testing feature helped me optimize my funnel and double my conversion rate.",
-      author: "Jessica Martinez",
-      title: "Digital Marketing Consultant",
-      credential: "120K YouTube subscribers",
-      rating: 5,
-    },
-  ];
-
-  const nextTestimonial = () => {
-    setCurrentIndex((prev) => (prev + 1) % testimonials.length);
-  };
-
-  const prevTestimonial = () => {
-    setCurrentIndex((prev) => (prev - 1 + testimonials.length) % testimonials.length);
-  };
+  const { ref, inView } = useInView({ threshold: 0.1, triggerOnce: true });
 
   return (
-    <section ref={ref} className="section-padding bg-gradient-to-br from-purple-50 via-pink-50 to-blue-50">
+    <section ref={ref} className="section-padding px-4 bg-dark-900/30">
       <div className="container-custom">
-        {/* Headline */}
         <motion.div
           initial={{ opacity: 0, y: 30 }}
           animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8 }}
-          className="text-center max-w-3xl mx-auto mb-16"
+          transition={{ duration: 0.7 }}
+          className="text-center max-w-3xl mx-auto mb-16 space-y-4"
         >
-          <h2 className="text-section lg:text-section font-bold text-gray-900 mb-6">
-            Loved by Creators Worldwide
+          <div className="inline-flex items-center space-x-2 px-3 py-1 rounded-full bg-brand-blue/10 border border-brand-blue/20 text-brand-blue text-xs font-semibold tracking-wider">
+            <span>⭐ CREATOR LOVE</span>
+          </div>
+          <h2 className="text-4xl md:text-5xl font-heading font-bold text-white tracking-tight">
+            Results Speak for Themselves
           </h2>
-          <p className="text-body-large text-gray-600 leading-relaxed">
-            Don't just take our word for it - hear from creators who've transformed their growth with BioPro
+          <p className="text-lg text-gray-400">
+            Thousands of creators have ditched dead-end bio links and upgraded to BioPro.
           </p>
         </motion.div>
 
-        {/* Testimonials Carousel */}
-        <div className="relative max-w-4xl mx-auto">
-          <div className="overflow-hidden">
+        <div className="grid md:grid-cols-2 gap-6 lg:gap-8">
+          {testimonials.map(({ name, handle, role, avatar, text, stat }, i) => (
             <motion.div
-              animate={{ x: -currentIndex * 100 + '%' }}
-              transition={{ type: 'spring', damping: 25, stiffness: 200 }}
-              className="flex"
+              key={name}
+              initial={{ opacity: 0, y: 40 }}
+              animate={inView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: i * 0.12 }}
+              className="glow-card rounded-3xl p-8 flex flex-col justify-between"
             >
-              {testimonials.map((testimonial, index) => (
-                <div key={index} className="w-full flex-shrink-0 px-4">
-                  <div className="card text-center">
-                    {/* Stars */}
-                    <div className="flex justify-center mb-6">
-                      {[...Array(testimonial.rating)].map((_, i) => (
-                        <Star key={i} className="w-5 h-5 text-yellow-400 fill-current" />
-                      ))}
-                    </div>
+              <div className="space-y-5">
+                {/* Stars */}
+                <div className="flex space-x-1">
+                  {Array.from({ length: 5 }).map((_, i) => (
+                    <span key={i} className="text-yellow-400 text-sm">★</span>
+                  ))}
+                </div>
 
-                    {/* Quote */}
-                    <blockquote className="text-xl text-gray-700 mb-8 leading-relaxed italic">
-                      "{testimonial.quote}"
-                    </blockquote>
+                <p className="text-gray-300 text-sm leading-relaxed">"{text}"</p>
+              </div>
 
-                    {/* Author */}
-                    <div className="flex items-center justify-center space-x-4">
-                      <div className="w-16 h-16 bg-gray-300 rounded-full"></div>
-                      <div className="text-left">
-                        <div className="font-semibold text-gray-900">
-                          {testimonial.author}
-                        </div>
-                        <div className="text-gray-600">
-                          {testimonial.title}
-                        </div>
-                        <div className="text-sm text-gray-500">
-                          {testimonial.credential}
-                        </div>
-                      </div>
-                    </div>
+              <div className="flex items-center justify-between pt-6 border-t border-white/5 mt-6">
+                <div className="flex items-center space-x-3">
+                  <img
+                    src={`https://images.unsplash.com/${avatar}?auto=format&fit=crop&w=80&h=80&q=80`}
+                    alt={name}
+                    className="w-11 h-11 rounded-full object-cover ring-2 ring-brand-purple/20"
+                  />
+                  <div>
+                    <p className="text-sm font-semibold text-white">{name}</p>
+                    <p className="text-xs text-gray-500">{role}</p>
                   </div>
                 </div>
-              ))}
+
+                <div className="text-right">
+                  <span className="text-[10px] font-bold text-brand-purple uppercase tracking-wider">{stat}</span>
+                </div>
+              </div>
             </motion.div>
-          </div>
-
-          {/* Navigation */}
-          <button
-            onClick={prevTestimonial}
-            className="absolute left-0 top-1/2 transform -translate-y-1/2 -translate-x-4 lg:-translate-x-12 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-          >
-            <ChevronLeft className="w-5 h-5 text-gray-600" />
-          </button>
-          
-          <button
-            onClick={nextTestimonial}
-            className="absolute right-0 top-1/2 transform -translate-y-1/2 translate-x-4 lg:translate-x-12 w-10 h-10 bg-white rounded-full shadow-lg flex items-center justify-center hover:bg-gray-50 transition-colors"
-          >
-            <ChevronRight className="w-5 h-5 text-gray-600" />
-          </button>
-
-          {/* Dots Indicator */}
-          <div className="flex justify-center mt-6 space-x-2">
-            {testimonials.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition-colors ${
-                  index === currentIndex ? 'bg-primary' : 'bg-gray-300'
-                }`}
-              />
-            ))}
-          </div>
+          ))}
         </div>
-
-        {/* Bottom Section */}
-        <motion.div
-          initial={{ opacity: 0, y: 30 }}
-          animate={inView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.8, delay: 0.4 }}
-          className="text-center mt-12"
-        >
-          <p className="text-gray-600 mb-6">
-            Join <span className="font-semibold text-gray-900">12,847</span> creators growing with BioPro
-          </p>
-          <button className="btn-primary">
-            Start Your Free Page
-          </button>
-        </motion.div>
       </div>
     </section>
   );

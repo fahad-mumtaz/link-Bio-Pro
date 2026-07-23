@@ -1,103 +1,32 @@
-import React, { useState, useEffect, useRef } from 'react';
+import React from 'react';
 import { motion } from 'framer-motion';
 import { useInView } from 'react-intersection-observer';
 
+const stats = [
+  { value: '28,482+', label: 'Active Creators', icon: '🚀' },
+  { value: '4.1M+', label: 'Links Published', icon: '🔗' },
+  { value: '31%', label: 'Avg. Email Capture Rate', icon: '📧' },
+  { value: '99.9%', label: 'Platform Uptime SLA', icon: '⚡' },
+];
+
 const StatsBar = () => {
-  const [ref, inView] = useInView({
-    triggerOnce: true,
-    threshold: 0.1,
-  });
-
-  const [counts, setCounts] = useState({
-    creators: 0,
-    links: 0,
-    captureRate: 0,
-    uptime: 0,
-  });
-
-  const targetCounts = {
-    creators: 12847,
-    links: 2400000,
-    captureRate: 28,
-    uptime: 99.9,
-  };
-
-  useEffect(() => {
-    if (inView) {
-      const duration = 2000; // 2 seconds
-      const steps = 60;
-      const stepDuration = duration / steps;
-
-      let currentStep = 0;
-      const interval = setInterval(() => {
-        currentStep++;
-        const progress = currentStep / steps;
-        const easeOutQuart = 1 - Math.pow(1 - progress, 4);
-
-        setCounts({
-          creators: Math.floor(targetCounts.creators * easeOutQuart),
-          links: Math.floor(targetCounts.links * easeOutQuart),
-          captureRate: Math.floor(targetCounts.captureRate * easeOutQuart),
-          uptime: parseFloat((targetCounts.uptime * easeOutQuart).toFixed(1)),
-        });
-
-        if (currentStep >= steps) {
-          clearInterval(interval);
-        }
-      }, stepDuration);
-
-      return () => clearInterval(interval);
-    }
-  }, [inView]);
-
-  const stats = [
-    {
-      id: 'creators',
-      value: counts.creators.toLocaleString() + '+',
-      label: 'Active Creators',
-      prefix: '',
-    },
-    {
-      id: 'links',
-      value: (counts.links / 1000000).toFixed(1) + 'M+',
-      label: 'Links Created',
-      prefix: '',
-    },
-    {
-      id: 'captureRate',
-      value: counts.captureRate + '%',
-      label: 'Avg. Email Capture Rate',
-      prefix: '',
-    },
-    {
-      id: 'uptime',
-      value: counts.uptime + '%',
-      label: 'Uptime',
-      prefix: '',
-    },
-  ];
+  const { ref, inView } = useInView({ threshold: 0.2, triggerOnce: true });
 
   return (
-    <section ref={ref} className="py-16 lg:py-20 bg-gradient-to-r from-purple-50 via-blue-50 to-pink-50">
+    <section ref={ref} className="py-16 border-y border-white/5 bg-dark-900/30">
       <div className="container-custom">
-        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8 lg:gap-12">
-          {stats.map((stat, index) => (
+        <div className="grid grid-cols-2 lg:grid-cols-4 gap-8">
+          {stats.map(({ value, label, icon }, i) => (
             <motion.div
-              key={stat.id}
+              key={label}
               initial={{ opacity: 0, y: 30 }}
               animate={inView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: index * 0.1 }}
-              className="text-center"
+              transition={{ duration: 0.6, delay: i * 0.1 }}
+              className="text-center group"
             >
-              <div className="mb-2">
-                <span className="text-4xl lg:text-5xl font-bold gradient-text">
-                  {stat.prefix}
-                  {stat.value}
-                </span>
-              </div>
-              <p className="text-sm lg:text-base text-gray-600 font-medium">
-                {stat.label}
-              </p>
+              <div className="text-3xl mb-2">{icon}</div>
+              <div className="text-4xl lg:text-5xl font-heading font-extrabold gradient-text mb-2">{value}</div>
+              <p className="text-sm text-gray-400 font-medium">{label}</p>
             </motion.div>
           ))}
         </div>
