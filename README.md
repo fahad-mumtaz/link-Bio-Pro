@@ -1,3 +1,5 @@
+> **Status: Front-end demo only.** This is a React/Vite landing-page demo. There is no backend, no live demo URL, and no working email capture in this repository. The testimonial, statistics, pricing, and footer content shown in the demo are placeholder marketing content, not results from a live product.
+
 # BioPro Landing Page
 
 A complete, conversion-optimized landing page for BioPro - a premium link-in-bio SaaS platform for content creators with built-in email capture.
@@ -15,8 +17,8 @@ A complete, conversion-optimized landing page for BioPro - a premium link-in-bio
 
 1. **Clone the repository**
    ```bash
-   git clone <repository-url>
-   cd "BIO PRO"
+   git clone https://github.com/fahad-mumtaz/link-Bio-Pro.git
+   cd link-Bio-Pro
    ```
 
 2. **Install dependencies**
@@ -136,8 +138,7 @@ src/
 - **Optimized Images**: WebP format with lazy loading
 - **Minified Code**: CSS and JavaScript minification
 - **CDN Ready**: Asset optimization for global delivery
-- **Fast Loading**: < 2 second page load time
-- **Mobile Optimized**: 90+ PageSpeed mobile score
+- **Performance targets (not measured):** load time and PageSpeed scores have not been measured for this demo.
 
 ## 📊 SEO Features
 
